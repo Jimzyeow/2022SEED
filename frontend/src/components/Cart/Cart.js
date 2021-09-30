@@ -1,10 +1,35 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
+import { NavLink } from "react-router-dom";
+import axios from "axios";
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
 
 
+
 function Cart(){
     
+
+
+function Cart(){ 
+    const [cart, setCart] = useState([])
+    function getCart() {
+    axios
+      .get("http://localhost:8000/cart?email=hello@dbs.com")
+      .then(function(response) {
+        //setCart(response.json());
+        console.log(response.data);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    }
+
+    useEffect(() => {
+        getCart();
+      }, []);
+
+
     return(
         <div className="row">
             <h1 style={{textAlign: 'center'}}>Shopping Cart</h1>
@@ -78,8 +103,16 @@ function Cart(){
             </div>
 
             <Button variant="primary" className="col-12">Checkout</Button>
+
+            <NavLink
+              className="btn btn-primary btn-primary"
+              to={`/checkout`}
+              exact
+            >
+              Checkout
+            </NavLink>
+
         </div>
     )
 }
-
 export default Cart
