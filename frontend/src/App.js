@@ -7,6 +7,7 @@ import ViewProducts from "./components/Product/ViewProducts";
 import Cart from "./components/Cart/Cart";
 import LoginContext from "./store/login-context";
 import ViewCategories from "./components/Product/ViewCategories";
+import CheckoutReact from "./components/CheckoutHTML/CheckoutReact";
 
 function App() {
   const loginCtx = useContext(LoginContext);
@@ -33,9 +34,11 @@ function App() {
               <Cart />
             </Route>
           )}
-          <Route path="/checkout" exact>
-            <LoginPage />
-          </Route>
+          {loginCtx.isLoggedIn && (
+            <Route path="/checkout" exact>
+              <CheckoutReact />
+            </Route>
+          )}
           <Route path="*">
             <Redirect to="/" />
           </Route>
