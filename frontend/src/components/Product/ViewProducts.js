@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useFetch from "../useFetch";
 const ViewProducts = () => {
     const { id } = useParams();
-    const { data: productlist, isPending, error } = useFetch('http://localhost:8000/products');
+    const { data: productlist, isPending, error } = useFetch(`http://localhost:8000/${id}/products`);
     console.log(id);
 
     return ( 
@@ -20,12 +20,14 @@ const ViewProducts = () => {
       <div className="col-md-2">
         <img src={filteredProduct.image} alt="Sample Image" height="150" />
       </div>
-      <Link to={`/products/${filteredProduct.id}`}>
+      
       <div className="col-md-8 product-detail">
+      <Link to={`/products/${filteredProduct.id}`}>
         <h4>{filteredProduct.title}</h4>
+        </Link>
         <p>{filteredProduct.description}</p>
       </div>
-      </Link>
+  
       <div className="col-md-2 product-price">
         {filteredProduct.price}
       </div>

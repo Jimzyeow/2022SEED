@@ -11,6 +11,7 @@ const ViewCategories = () => {
             categorylist.map((category) =>(
                 <Link to={`${category.id}/products/`}>
                 <div className="row-categories" key={category.id}>
+                    
                     <h2>{category.name}</h2>
                 </div>
                 </Link>
