@@ -50,10 +50,19 @@ def show_products(category: int):
     return filtered_dict
 
 
+@app.get("/{category}/products/{product_id}")
+def show_products(product_id: int, category: int):
+    filtered_dict = []
+    with open('products.json', encoding='utf-8') as f:
+        data = json.load(f)
+        for i in data:
+            if i['category_id'] == category and i['id'] == product_id:
+                filtered_dict.append(i)
+    return filtered_dict
+
+
 @app.get("/categories")
 def show_products():
     with open("categories.json", encoding='utf-8') as f:
         data = json.load(f)
     return data
-
-
