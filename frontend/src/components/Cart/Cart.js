@@ -7,10 +7,6 @@ import Button from 'react-bootstrap/Button'
 
 
 
-function Cart(){
-    
-
-
 function Cart(){ 
     const [cart, setCart] = useState([])
     function getCart() {
@@ -102,8 +98,8 @@ function Cart(){
             </table>
             </div>
 
-            <Button variant="primary" className="col-12">Checkout</Button>
 
+            <Button variant="primary" className="col-12">Checkout</Button>
             <NavLink
               className="btn btn-primary btn-primary"
               to={`/checkout`}
@@ -111,8 +107,8 @@ function Cart(){
             >
               Checkout
             </NavLink>
-
         </div>
     )
 }
+
 export default Cart
