@@ -13,9 +13,7 @@ const ViewProducts = () => {
             {isPending && <div>Loading....</div>}
          
             {productlist && 
-            productlist.filter(function(product){
-              return product.category_id == id;
-           }).map((filteredProduct) =>(
+            productlist.map((filteredProduct) =>(
                 <div className="row-product" key={filteredProduct.id}>
       <div className="col-md-2">
         <img src={filteredProduct.image} alt="Sample Image" height="150" />
