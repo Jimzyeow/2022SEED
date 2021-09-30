@@ -115,7 +115,7 @@ def display_cart(email):
     return cart_dic
 
 @app.get("/{category}/products")
-def show_products(category: int):
+def show_products(category):
     filtered_dict = []
     with open('products.json', encoding='utf-8') as f:
         data = json.load(f)
@@ -132,7 +132,7 @@ def show_products(category: int):
 
 
 @app.get("/products/{product_id}")
-def show_products(product_id: int):
+def show_products(product_id):
     return get_product(product_id)
 
 
@@ -165,5 +165,4 @@ def checkout(email):
         del user_db["cart"]
         with open('products.json', "w", encoding='utf-8') as f:
             json.dump(data, f, indent=4)
-            print("sweee")
         return "Checkout finished!"
