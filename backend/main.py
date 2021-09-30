@@ -1,6 +1,8 @@
 from typing import Optional
-from fastapi import Depends, FastAPI, HTTPException, File, UploadFile
+from fastapi import Depends, FastAPI, HTTPException, File, UploadFile, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
+from pathlib import Path
+
 import pickle
 import os
 import pandas as pd
@@ -27,7 +29,6 @@ app.add_middleware(
 )
 
 def get_product(product_id):
-    product = []
     with open('products.json', encoding='utf-8') as f:
         data = json.load(f)
         for dic in data:
@@ -118,26 +119,28 @@ def show_products(category: int):
     filtered_dict = []
     with open('products.json', encoding='utf-8') as f:
         data = json.load(f)
+    try:
         for i in data:
             if i['category_id'] == category:
                 filtered_dict.append(i)
-    return filtered_dict
+    except:
+        raise HTTPException(status_code=400, detail="Category not found")
+    if filtered_dict:
+        return filtered_dict
+    else: 
+        return "No Products found in Category ID: " + str(category)
 
 
-@app.get("/{category}/products/{product_id}")
-def show_products(product_id: int, category: int):
-    filtered_dict = []
-    with open('products.json', encoding='utf-8') as f:
-        data = json.load(f)
-        for i in data:
-            if i['category_id'] == category and i['id'] == product_id:
-                filtered_dict.append(i)
-    return filtered_dict[0]
+@app.get("/products/{product_id}")
+def show_products(product_id: int):
+    return get_product(product_id)
 
 
 @app.get("/categories")
 def show_products():
     with open("categories.json", encoding='utf-8') as f:
         data = json.load(f)
-    return data
-
+    if data:
+        return data
+    else:
+        return "No Categories Found"
