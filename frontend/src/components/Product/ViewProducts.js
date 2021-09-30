@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useFetch from "../useFetch";
 const ViewProducts = () => {
     const { id } = useParams();
-    const { data: productlist, isPending, error } = useFetch('http://localhost:8000/products');
+    const { data: productlist, isPending, error } = useFetch(`http://localhost:8000/${id}/products`);
     console.log(id);
 
     return ( 
