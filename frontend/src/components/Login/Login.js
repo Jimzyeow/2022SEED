@@ -67,7 +67,7 @@ function LoginPage() {
     dispatchPassword({ type: "USER_INPUT", val: event.target.value });
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     //for now just console logging to make sure everything works.
@@ -75,12 +75,27 @@ function LoginPage() {
     console.log(passwordState.isValid);
     console.log(formIsValid);
 
+    const enteredEmail = emailState.value;
+    const enteredPassword = passwordState.value;
+
     axios
-      .get("http://127.0.0.1:8000/user?email=hello%40dbs.com&password=password")
+      .post("http://localhost:8000/user", null, {
+        params: {
+          email: enteredEmail,
+          password: enteredPassword,
+        },
+      })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
+        if (response.status !== 200) {
+          throw new Error("Authentication Failed");
+        }
         loginCtx.login(response.data);
-        history.push("/shop");
+        history.replace("/shop");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err);
       });
   };
 
