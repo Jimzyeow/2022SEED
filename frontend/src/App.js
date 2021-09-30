@@ -1,6 +1,3 @@
-import logo from "./logo.svg";
-import "./App.css";
-
 import LoginPage from "./components/Login/Login";
 
 function App() {
