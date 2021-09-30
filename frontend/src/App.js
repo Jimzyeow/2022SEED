@@ -6,6 +6,7 @@ import Nav from "./components/UI/Navigation";
 import ViewProducts from "./components/Product/ViewProducts";
 import Cart from "./components/Cart/Cart";
 import LoginContext from "./store/login-context";
+import ViewCategories from "./components/Product/ViewCategories";
 
 function App() {
   const loginCtx = useContext(LoginContext);
@@ -24,12 +25,14 @@ function App() {
           </Route>
           {loginCtx.isLoggedIn && (
             <Route path="/shop" exact>
-              <ViewProducts />
+              <ViewCategories />
             </Route>
           )}
-          <Route path="/cart" exact>
-            <LoginPage />
-          </Route>
+          {loginCtx.isLoggedIn && (
+            <Route path="/cart" exact>
+              <Cart />
+            </Route>
+          )}
           <Route path="/checkout" exact>
             <LoginPage />
           </Route>
