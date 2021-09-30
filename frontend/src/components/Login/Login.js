@@ -75,18 +75,13 @@ function LoginPage() {
     console.log(passwordState.isValid);
     console.log(formIsValid);
 
-    if (formIsValid) {
-      //once form is valid , call backend
-      const enteredEmail = emailState.value;
-      const enteredPassword = passwordState.value;
-
-      //using dummy data since no real data yet
-      axios
-        .get("http://127.0.0.1:8000/user?email=%40dbs.com&password=password")
-        .then((response) => {
-          console.log(response);
-        });
-    }
+    axios
+      .get("http://127.0.0.1:8000/user?email=hello%40dbs.com&password=password")
+      .then((response) => {
+        console.log(response);
+        loginCtx.login(response.data);
+        history.push("/shop");
+      });
   };
 
   return (
@@ -105,9 +100,7 @@ function LoginPage() {
             required
           />
         </div>
-        <div>
-          <button type="button">Login</button>
-        </div>
+        <button type="submit">Login</button>
       </form>
     </section>
   );

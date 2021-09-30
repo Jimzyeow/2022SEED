@@ -1,12 +1,17 @@
 import { Switch, Route, Redirect } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import LoginPage from "./components/Login/Login";
 import Nav from "./components/UI/Navigation";
 import ViewProducts from "./components/Product/ViewProducts";
 import Cart from "./components/Cart/Cart";
+import LoginContext from "./store/login-context";
 
 function App() {
+  const loginCtx = useContext(LoginContext);
+
+  console.log(loginCtx.isLoggedIn);
+
   return (
     <div className="App">
       <header>
@@ -17,14 +22,19 @@ function App() {
           <Route path="/" exact>
             <LoginPage />
           </Route>
-          <Route path="/shop" exact>
-            <ViewProducts />
-          </Route>
+          {loginCtx.isLoggedIn && (
+            <Route path="/shop" exact>
+              <ViewProducts />
+            </Route>
+          )}
           <Route path="/cart" exact>
             <LoginPage />
           </Route>
           <Route path="/checkout" exact>
             <LoginPage />
+          </Route>
+          <Route path="*">
+            <Redirect to="/" />
           </Route>
         </Switch>
       </main>
