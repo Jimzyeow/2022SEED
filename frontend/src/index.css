@@ -27,3 +27,11 @@ code {
   font-weight: bold;
   font-size: 140%;
 }
+
+.view-categories a{
+  text-decoration: none;
+}
+
+.view-categories h2{
+  font-size: 20px;
+}
