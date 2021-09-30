@@ -10,6 +10,16 @@ import json
 
 app = FastAPI()
 
+def get_product(product_id):
+    product = []
+    with open('products.json', encoding='utf-8') as f:
+        data = json.load(f)
+        for i in data:
+            if i['id'] == product_id:
+                product.append(i)
+    return product[0]
+
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -58,7 +68,7 @@ def show_products(product_id: int, category: int):
         for i in data:
             if i['category_id'] == category and i['id'] == product_id:
                 filtered_dict.append(i)
-    return filtered_dict
+    return filtered_dict[0]
 
 
 @app.get("/categories")
@@ -66,3 +76,4 @@ def show_products():
     with open("categories.json", encoding='utf-8') as f:
         data = json.load(f)
     return data
+
