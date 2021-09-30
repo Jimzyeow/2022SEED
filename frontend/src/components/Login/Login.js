@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect, useReducer } from "react";
 import LoginContext from "../../store/login-context";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import classes from "./Login.module.css";
 
 const DUMMY_USER = {
   username: "eehong555@gmail.com",
@@ -79,31 +81,35 @@ function LoginPage() {
       const enteredPassword = passwordState.value;
 
       //using dummy data since no real data yet
-
-      loginCtx.login(DUMMY_USER.token, DUMMY_USER.username);
-      history.push("/cart");
+      axios
+        .get("http://127.0.0.1:8000/user?email=%40dbs.com&password=password")
+        .then((response) => {
+          console.log(response);
+        });
     }
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      <div>
-        <label htmlFor="email">Your Email</label>
-        <input onChange={emailHandler} type="email" id="email" required />
-      </div>
-      <div>
-        <label htmlFor="password">Your Password</label>
-        <input
-          onChange={passwordHandler}
-          type="password"
-          id="password"
-          required
-        />
-      </div>
-      <div>
-        <button>Login</button>
-      </div>
-    </form>
+    <section className={classes.auth}>
+      <form onSubmit={submitHandler}>
+        <div className={classes.control}>
+          <label htmlFor="email">Your Email</label>
+          <input onChange={emailHandler} type="email" id="email" required />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="password">Your Password</label>
+          <input
+            onChange={passwordHandler}
+            type="password"
+            id="password"
+            required
+          />
+        </div>
+        <div>
+          <button type="button">Login</button>
+        </div>
+      </form>
+    </section>
   );
 }
 
