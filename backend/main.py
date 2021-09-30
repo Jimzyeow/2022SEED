@@ -6,6 +6,8 @@ import pandas as pd
 
 DB_HOME = os.getcwd() + "\data\\" #  "./data/"
 
+import json
+
 app = FastAPI()
 
 @app.get("/")
@@ -37,4 +39,21 @@ def authenthicate_user(email, password):
     else:
         raise HTTPException(status_code=400, detail="User not authenticated")
 
-    
+@app.get("/{category}/products")
+def show_products(category: int):
+    filtered_dict = []
+    with open('products.json', encoding='utf-8') as f:
+        data = json.load(f)
+        for i in data:
+            if i['category_id'] == category:
+                filtered_dict.append(i)
+    return filtered_dict
+
+
+@app.get("/categories")
+def show_products():
+    with open("categories.json", encoding='utf-8') as f:
+        data = json.load(f)
+    return data
+
+
