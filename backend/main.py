@@ -86,6 +86,21 @@ def add_product(email, product_id):
     pickle.dump(db, file) 
     file.close()
 
+@app.post("/cartRemove")
+def remove_product(email, product_id):
+    db = pd.read_pickle(DB_HOME+email)
+    file = open(DB_HOME + email, 'wb+')
+
+    if product_id in db["cart"]:
+        db["cart"][product_id] -= 1
+        if db["cart"][product_id] == 0:
+            del db["cart"][product_id]
+    else:
+        raise HTTPException(status_code=400, detail="Product not found")
+    
+    pickle.dump(db, file) 
+    file.close()
+
 @app.get("/cart")
 def display_cart(email):
     db = pd.read_pickle(DB_HOME+email)
