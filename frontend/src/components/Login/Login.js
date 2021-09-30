@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect, useReducer } from "react";
 import LoginContext from "../../store/login-context";
+import { useHistory } from "react-router-dom";
 
 const DUMMY_USER = {
   username: "eehong555@gmail.com",
@@ -28,6 +29,7 @@ const passwordReducer = (state, action) => {
 };
 
 function LoginPage() {
+  const history = useHistory();
   //state to check if overall form is vali.
   const [formIsValid, setFormIsValid] = useState(false);
 
@@ -79,6 +81,7 @@ function LoginPage() {
       //using dummy data since no real data yet
 
       loginCtx.login(DUMMY_USER.token, DUMMY_USER.username);
+      history.push("/cart");
     }
   };
 

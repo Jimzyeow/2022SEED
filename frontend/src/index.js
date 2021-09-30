@@ -3,11 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
 import { LoginContextProvider } from "./store/login-context";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <LoginContextProvider>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </LoginContextProvider>,
   document.getElementById("root")
 );
