@@ -1,5 +1,6 @@
 from typing import Optional
 from fastapi import Depends, FastAPI, HTTPException, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 import pickle
 import os
 import pandas as pd
@@ -9,6 +10,21 @@ DB_HOME = os.getcwd() + "\data\\" #  "./data/"
 import json
 
 app = FastAPI()
+
+# Middleware
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_product(product_id):
     product = []
@@ -31,6 +47,7 @@ def add_user(email, password):
     db = {}
     db["username"] = email
     db["password"] = password
+    db["cart"] = {}
 
     pickle.dump(db, file) 
     file.close()
@@ -48,6 +65,15 @@ def authenthicate_user(email, password):
         return email
     else:
         raise HTTPException(status_code=400, detail="User not authenticated")
+
+@app.get("/userDetails")
+def read_user(email):
+    try:
+        db_user = pd.read_pickle(DB_HOME+email)
+    except:
+        raise HTTPException(status_code=400, detail="No user found")
+    
+    return (db_user)
 
 @app.get("/{category}/products")
 def show_products(category: int):
