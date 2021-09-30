@@ -21,6 +21,7 @@ def add_user(email, password):
     db = {}
     db["username"] = email
     db["password"] = password
+    db["cart"] = {}
 
     pickle.dump(db, file) 
     file.close()
@@ -38,6 +39,15 @@ def authenthicate_user(email, password):
         return email
     else:
         raise HTTPException(status_code=400, detail="User not authenticated")
+
+@app.get("/userDetails")
+def read_user(email):
+    try:
+        db_user = pd.read_pickle(DB_HOME+email)
+    except:
+        raise HTTPException(status_code=400, detail="No user found")
+    
+    return (db_user)
 
 @app.get("/{category}/products")
 def show_products(category: int):
