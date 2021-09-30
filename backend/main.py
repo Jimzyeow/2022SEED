@@ -32,19 +32,18 @@ app.add_middleware(
 )
 
 def get_product(product_id):
-    product = []
     with open('products.json', encoding='utf-8') as f:
         data = json.load(f)
-        for i in data:
-            if i['id'] == int(product_id):
-                product.append(i)
-    return product[0]
+        for dic in data:
+            if int(dic['id']) == int(product_id):
+                return dic
+    return "not found"
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/user")
+@app.post("/signup")
 def add_user(email, password):
     print(DB_HOME+email)
     file = open(DB_HOME + email, 'wb+')
@@ -56,7 +55,7 @@ def add_user(email, password):
     pickle.dump(db, file) 
     file.close()
 
-@app.get("/user")
+@app.post("/user")
 def authenthicate_user(email, password):
     try:
         db_user = pd.read_pickle(DB_HOME+email)
@@ -91,26 +90,53 @@ def add_product(email, product_id):
     pickle.dump(db, file) 
     file.close()
 
+@app.post("/cartRemove")
+def remove_product(email, product_id):
+    db = pd.read_pickle(DB_HOME+email)
+    file = open(DB_HOME + email, 'wb+')
+
+    if product_id in db["cart"]:
+        db["cart"][product_id] -= 1
+        if db["cart"][product_id] == 0:
+            del db["cart"][product_id]
+    else:
+        raise HTTPException(status_code=400, detail="Product not found")
+    
+    pickle.dump(db, file) 
+    file.close()
+
+@app.get("/cart")
+def display_cart(email):
+    db = pd.read_pickle(DB_HOME+email)
+
+    cart_dic = []
+
+    for key, value in db["cart"].items():
+        print(key, value)
+        cart_dic.append([get_product(key), value])
+
+    return cart_dic
+
 @app.get("/{category}/products")
 def show_products(category: int):
     filtered_dict = []
     with open('products.json', encoding='utf-8') as f:
         data = json.load(f)
+    try:
         for i in data:
             if i['category_id'] == category:
                 filtered_dict.append(i)
-    return filtered_dict
+    except:
+        raise HTTPException(status_code=400, detail="Category not found")
+    if filtered_dict:
+        return filtered_dict
+    else: 
+        return "No Products found"
 
 
-@app.get("/{category}/products/{product_id}")
-def show_products(product_id: int, category: int):
-    filtered_dict = []
-    with open('products.json', encoding='utf-8') as f:
-        data = json.load(f)
-        for i in data:
-            if i['category_id'] == category and i['id'] == product_id:
-                filtered_dict.append(i)
-    return filtered_dict[0]
+@app.get("products/{product_id}")
+def show_products(product_id: int):
+    return get_product(product_id)
 
 
 @app.get("/categories")
