@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
+import { NavLink } from "react-router-dom";
 
 
 function Cart(){ 
@@ -21,7 +22,7 @@ function Cart(){
                     </tr>
                 </thead>
                 <tbody>
-                    <tr key="hello">
+                    <tr key="1">
                             <td><Button className="btn btn-danger">Remove</Button></td>
                             <td>Mens Casual Slim Fit</td>
                             <td><img src="https://m.media-amazon.com/images/I/61BLkfpQP8L._AC_UL1144_.jpg" style={{width:'100px',height:'100px'}}/></td>
@@ -34,7 +35,7 @@ function Cart(){
                             <td>${23}</td>
                             
                     </tr>
-                    <tr key="hello">
+                    <tr key="2">
                             <td><Button className="btn btn-danger">Remove</Button></td>
                             <td>Mens Casual Slim Fit</td>
                             <td><img src="https://m.media-amazon.com/images/I/61BLkfpQP8L._AC_UL1144_.jpg" style={{width:'100px',height:'100px'}}/></td>
@@ -76,15 +77,17 @@ function Cart(){
             </table>
             </div>
 
-            <Button variant="primary">Checkout</Button>
+
+            <NavLink
+              className="btn btn-primary btn-primary"
+              to={`/checkout`}
+              exact
+            >
+              Checkout
+            </NavLink>
+
         </div>
     )
 }
-// const mapStateToProps = state =>{
-//   //  console.log(state)
-//     return{
-//         items:state._todoProduct
-//     }
-// }
 
 export default Cart
