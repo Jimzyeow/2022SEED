@@ -30,16 +30,16 @@ def get_product(product_id):
     product = []
     with open('products.json', encoding='utf-8') as f:
         data = json.load(f)
-        for i in data:
-            if i['id'] == product_id:
-                product.append(i)
-    return product[0]
+        for dic in data:
+            if int(dic['id']) == int(product_id):
+                return dic
+    return "not found"
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/user")
+@app.post("/signup")
 def add_user(email, password):
     print(DB_HOME+email)
     file = open(DB_HOME + email, 'wb+')
@@ -51,7 +51,7 @@ def add_user(email, password):
     pickle.dump(db, file) 
     file.close()
 
-@app.get("/user")
+@app.post("/user")
 def authenthicate_user(email, password):
     try:
         db_user = pd.read_pickle(DB_HOME+email)
@@ -85,6 +85,18 @@ def add_product(email, product_id):
 
     pickle.dump(db, file) 
     file.close()
+
+@app.get("/cart")
+def display_cart(email):
+    db = pd.read_pickle(DB_HOME+email)
+
+    cart_dic = []
+
+    for key, value in db["cart"].items():
+        print(key, value)
+        cart_dic.append([get_product(key), value])
+
+    return cart_dic
 
 @app.get("/{category}/products")
 def show_products(category: int):
