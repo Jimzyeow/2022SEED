@@ -1,4 +1,13 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useContext, useState, useEffect, useReducer } from "react";
+import LoginContext from "../../store/login-context";
+
+const DUMMY_USER = {
+  username: "eehong555@gmail.com",
+  password: "hong5555",
+  firstName: "Ee Hong",
+  lastName: "Lee",
+  token: "secret",
+};
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
@@ -13,7 +22,7 @@ const passwordReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     //add all validation here, only if true, isValid return true
     //currently only must be longer than 8 character.
-    return { value: action.val, isValid: action.val.trim().length > 8 };
+    return { value: action.val, isValid: action.val.trim().length >= 6 };
   }
   return { value: "", isValid: false };
 };
@@ -31,6 +40,8 @@ function LoginPage() {
     value: "",
     isValid: null,
   });
+
+  const loginCtx = useContext(LoginContext);
 
   //extract out isValid from emailState and pwState
   const { isValid: emailIsValid } = emailState;
@@ -59,6 +70,16 @@ function LoginPage() {
     console.log(emailState.isValid);
     console.log(passwordState.isValid);
     console.log(formIsValid);
+
+    if (formIsValid) {
+      //once form is valid , call backend
+      const enteredEmail = emailState.value;
+      const enteredPassword = passwordState.value;
+
+      //using dummy data since no real data yet
+
+      loginCtx.login(DUMMY_USER.token, DUMMY_USER.username);
+    }
   };
 
   return (
