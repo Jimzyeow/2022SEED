@@ -12,6 +12,7 @@ function App() {
           <Switch>
             <Route exact path="/">
               <ViewCategories />
+              
             </Route>
             <Route path="/:id/products/">
               <ViewProducts />
