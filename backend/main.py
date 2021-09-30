@@ -40,7 +40,6 @@ def get_product(product_id):
                 product.append(i)
     return product[0]
 
-
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -79,6 +78,18 @@ def read_user(email):
         raise HTTPException(status_code=400, detail="No user found")
     
     return (db_user)
+
+@app.post("/cart")
+def add_product(email, product_id):
+    db = pd.read_pickle(DB_HOME+email)
+    file = open(DB_HOME + email, 'wb+')
+
+    if product_id not in db["cart"]:
+        db["cart"][product_id] = 0
+    db["cart"][product_id] += 1
+
+    pickle.dump(db, file) 
+    file.close()
 
 @app.get("/{category}/products")
 def show_products(category: int):
