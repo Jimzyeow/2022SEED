@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import LoginPage from "./components/Login/Login";
 import Nav from "./components/UI/Navigation";
 import ViewProducts from "./components/Product/ViewProducts";
+import Cart from "./components/Cart/Cart";
 
 function App() {
   return (
