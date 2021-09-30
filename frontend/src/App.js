@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import LoginPage from "./components/Login/Login";
 import Cart from './components/Cart/Cart';
+import CheckoutReact from "./components/CheckoutHTML/CheckoutReact";
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
           <LoginPage />
         </Route>
         <Route path="/checkout" exact>
-          <LoginPage />
+          <CheckoutReact />
         </Route>
       </Switch>
     </div>
