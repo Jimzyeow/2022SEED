@@ -8,22 +8,22 @@ import CheckoutReact from "./components/CheckoutHTML/CheckoutReact";
 
 function App() {
   return (
-    <div className="App">
-      <Switch>
-        <Route path="/" exact>
-          <LoginPage />
-        </Route>
-        <Route path="/shop" exact>
-          <LoginPage />
-        </Route>
-        <Route path="/cart" exact>
-          <LoginPage />
-        </Route>
-        <Route path="/checkout" exact>
-          <CheckoutReact />
-        </Route>
-      </Switch>
-    </div>
+    <Router>
+      <div className="App">
+          <Switch>
+            <Route exact path="/">
+              <ViewCategories />
+              
+            </Route>
+            <Route path="/:id/products/">
+              <ViewProducts />
+            </Route>
+            <Route path="/products/:id">
+              <ProductDetails />
+            </Route>
+          </Switch>
+        </div>
+    </Router>
   );
 }
 
