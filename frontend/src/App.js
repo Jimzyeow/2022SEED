@@ -3,7 +3,6 @@ import React, { useContext, useState, useEffect } from "react";
 
 import LoginPage from "./components/Login/Login";
 import Nav from "./components/UI/Navigation";
-import ViewProducts from "./components/Product/ViewProducts";
 import Cart from "./components/Cart/Cart";
 import LoginContext from "./store/login-context";
 import ViewCategories from "./components/Product/ViewCategories";

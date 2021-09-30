@@ -1,9 +1,25 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
+import axios from 'axios'
 
 
 function CheckoutReact(){ 
+    
+    function ButtonClick(){
+        axios
+        .get("http://127.0.0.1:8000/checkout?email=hello@dbs.com")
+        .then((response) => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error.response.data.error)
+        })
+    
+    }
+   
+
+
     return(
         <>
         <div class="container">
@@ -140,10 +156,9 @@ function CheckoutReact(){
 
                     <hr class="my-4"/>
 
-                    <button class="btn btn-primary btn-lgbtn-block">
+                    <button class="btn btn-primary btn-lgbtn-block" onClick={ButtonClick}>
                         Continue to Checkout
                     </button>
-
                 </div>
            </div>
         </form>

@@ -115,7 +115,7 @@ def display_cart(email):
     return cart_dic
 
 @app.get("/{category}/products")
-def show_products(category: int):
+def show_products(category):
     filtered_dict = []
     with open('products.json', encoding='utf-8') as f:
         data = json.load(f)
@@ -132,7 +132,7 @@ def show_products(category: int):
 
 
 @app.get("/products/{product_id}")
-def show_products(product_id: int):
+def show_products(product_id):
     return get_product(product_id)
 
 
@@ -144,3 +144,25 @@ def show_products():
         return data
     else:
         return "No Categories Found"
+
+
+@app.get("/checkout")
+def checkout(email):
+    user_db = pd.read_pickle(DB_HOME+email)
+    neg_error = 0
+    error_ids = []
+    with open('products.json', encoding='utf-8') as f:
+        data = json.load(f)
+    for id, number in user_db["cart"].items():
+        for product in data:
+            if product['id'] == id:
+                product['qty'] -= number
+                if product['qty'] < 0:
+                    error_ids.append(id)
+    if neg_error == 1:
+        return "Cart has too many of product id: " + str(error_ids)
+    else:
+        del user_db["cart"]
+        with open('products.json', "w", encoding='utf-8') as f:
+            json.dump(data, f, indent=4)
+        return "Checkout finished!"

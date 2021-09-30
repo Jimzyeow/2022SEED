@@ -1,53 +1,84 @@
-import React, { Component } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Button from 'react-bootstrap/Button'
+import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Button from "react-bootstrap/Button";
+import { NavLink } from "react-router-dom";
 
-
-function Cart(){ 
-    return(
-        <div className="row">
-            <h1 style={{textAlign: 'center'}}>Shopping Cart</h1>
-            <div className="col-md-12">
-            <table className="table" >
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Product</th>
-                        <th>Product Image</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr key="hello">
-                            <td><Button className="btn btn-danger">Remove</Button></td>
-                            <td>Mens Casual Slim Fit</td>
-                            <td><img src="https://m.media-amazon.com/images/I/61BLkfpQP8L._AC_UL1144_.jpg" style={{width:'100px',height:'100px'}}/></td>
-                            <td>$20</td>
-                            <td>
-                                <span className="btn btn-outline-primary" style={{margin:'2px'}} >-</span>
-                                <span className="btn btn-light">1</span>
-                                <span className="btn btn-outline-primary" style={{margin:'2px'}} >+</span>
-                            </td>
-                            <td>${23}</td>
-                            
-                    </tr>
-                    <tr key="hello">
-                            <td><Button className="btn btn-danger">Remove</Button></td>
-                            <td>Mens Casual Slim Fit</td>
-                            <td><img src="https://m.media-amazon.com/images/I/61BLkfpQP8L._AC_UL1144_.jpg" style={{width:'100px',height:'100px'}}/></td>
-                            <td>$20</td>
-                            <td>
-                                <span className="btn btn-outline-primary" style={{margin:'2px'}} >-</span>
-                                <span className="btn btn-light">2</span>
-                                <span className="btn btn-outline-primary" style={{margin:'2px'}} >+</span>
-                            </td>
-                            <td>${23}</td>
-                            
-                    </tr>
-                {/* {
+function Cart() {
+  return (
+    <div className="row">
+      <h1 style={{ textAlign: "center" }}>Shopping Cart</h1>
+      <div className="col-md-12">
+        <table className="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Product</th>
+              <th>Product Image</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr key="1">
+              <td>
+                <Button className="btn btn-danger">Remove</Button>
+              </td>
+              <td>Mens Casual Slim Fit</td>
+              <td>
+                <img
+                  src="https://m.media-amazon.com/images/I/61BLkfpQP8L._AC_UL1144_.jpg"
+                  style={{ width: "100px", height: "100px" }}
+                />
+              </td>
+              <td>$20</td>
+              <td>
+                <span
+                  className="btn btn-outline-primary"
+                  style={{ margin: "2px" }}
+                >
+                  -
+                </span>
+                <span className="btn btn-light">1</span>
+                <span
+                  className="btn btn-outline-primary"
+                  style={{ margin: "2px" }}
+                >
+                  +
+                </span>
+              </td>
+              <td>${23}</td>
+            </tr>
+            <tr key="2">
+              <td>
+                <Button className="btn btn-danger">Remove</Button>
+              </td>
+              <td>Mens Casual Slim Fit</td>
+              <td>
+                <img
+                  src="https://m.media-amazon.com/images/I/61BLkfpQP8L._AC_UL1144_.jpg"
+                  style={{ width: "100px", height: "100px" }}
+                />
+              </td>
+              <td>$20</td>
+              <td>
+                <span
+                  className="btn btn-outline-primary"
+                  style={{ margin: "2px" }}
+                >
+                  -
+                </span>
+                <span className="btn btn-light">2</span>
+                <span
+                  className="btn btn-outline-primary"
+                  style={{ margin: "2px" }}
+                >
+                  +
+                </span>
+              </td>
+              <td>${23}</td>
+            </tr>
+            {/* {
                     ListCart.map((item,key)=>{
                         return(
                             <tr key={key}>    
@@ -66,25 +97,20 @@ function Cart(){
                     })
                         
                 } */}
-                <tr>
-                    <td colSpan="5">Total Carts</td>
-                    <td colSpan="5">$20</td>
-                    {/* <td>{Number(TotalCart).toLocaleString('en-US')} $</td> */}
-                </tr>
-                </tbody>
-              
-            </table>
-            </div>
+            <tr>
+              <td colSpan="5">Total Carts</td>
+              <td colSpan="5">$20</td>
+              {/* <td>{Number(TotalCart).toLocaleString('en-US')} $</td> */}
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-            <Button variant="primary">Checkout</Button>
-        </div>
-    )
+      <NavLink className="btn btn-primary btn-primary" to={`/checkout`} exact>
+        Checkout
+      </NavLink>
+    </div>
+  );
 }
-// const mapStateToProps = state =>{
-//   //  console.log(state)
-//     return{
-//         items:state._todoProduct
-//     }
-// }
 
-export default Cart
+export default Cart;
