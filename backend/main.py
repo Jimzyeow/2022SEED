@@ -1,6 +1,9 @@
 from typing import Optional
-from fastapi import Depends, FastAPI, HTTPException, File, UploadFile
+from fastapi import Depends, FastAPI, HTTPException, File, UploadFile, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
+from pathlib import Path
+
 import pickle
 import os
 import pandas as pd
@@ -10,6 +13,8 @@ DB_HOME = os.getcwd() + "\data\\" #  "./data/"
 import json
 
 app = FastAPI()
+BASE_PATH = Path(__file__).resolve().parent.parent
+TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "frontend/src/components/CheckoutHTML/"))
 
 # Middleware
 
@@ -31,7 +36,7 @@ def get_product(product_id):
     with open('products.json', encoding='utf-8') as f:
         data = json.load(f)
         for i in data:
-            if i['id'] == product_id:
+            if i['id'] == int(product_id):
                 product.append(i)
     return product[0]
 
@@ -103,3 +108,7 @@ def show_products():
         data = json.load(f)
     return data
 
+
+@app.get("/checkout")
+def checkout_form(request: Request):
+    return TEMPLATES.TemplateResponse("index.html", {"request": request})
