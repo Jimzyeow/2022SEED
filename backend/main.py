@@ -1,7 +1,6 @@
 from typing import Optional
 from fastapi import Depends, FastAPI, HTTPException, File, UploadFile, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
 import pickle
@@ -13,8 +12,6 @@ DB_HOME = os.getcwd() + "\data\\" #  "./data/"
 import json
 
 app = FastAPI()
-BASE_PATH = Path(__file__).resolve().parent.parent
-TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "frontend/src/components/CheckoutHTML/"))
 
 # Middleware
 
@@ -131,10 +128,10 @@ def show_products(category: int):
     if filtered_dict:
         return filtered_dict
     else: 
-        return "No Products found"
+        return "No Products found in Category ID: " + str(category)
 
 
-@app.get("products/{product_id}")
+@app.get("/products/{product_id}")
 def show_products(product_id: int):
     return get_product(product_id)
 
@@ -143,9 +140,7 @@ def show_products(product_id: int):
 def show_products():
     with open("categories.json", encoding='utf-8') as f:
         data = json.load(f)
-    return data
-
-
-@app.get("/checkout")
-def checkout_form(request: Request):
-    return TEMPLATES.TemplateResponse("index.html", {"request": request})
+    if data:
+        return data
+    else:
+        return "No Categories Found"
